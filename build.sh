@@ -11,12 +11,12 @@ function docker_tag_exists() {
 }
 
 function docker_build() {
-  if docker_tag_exists "${DOCKER_USERNAME}/${DOCKER_REPONAME}" "$2-$3"; then
+  if "$3" != "latest" -a docker_tag_exists "${DOCKER_USERNAME}/${DOCKER_REPONAME}" "$2-$3"; then
     echo "### Tag ${DOCKER_USERNAME}/${DOCKER_REPONAME}:$2-$3 already exists..."
   else
     echo "### Start building Artifactory $2 $3..."
     mkdir -p ./docker/$2-$3
-    echo "FROM $1:$version" > ./docker/$2-$3/Dockerfile
+    echo "FROM $1:$3" > ./docker/$2-$3/Dockerfile
     docker build -t $2-$3 -f ./docker/$2-$3/Dockerfile ./docker/$2-$3
     docker tag $2-$3 ${DOCKER_USERNAME}/${DOCKER_REPONAME}:$2-$3
   fi
