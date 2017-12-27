@@ -6,15 +6,16 @@ DOCKER_REPONAME=${DOCKER_REPONAME:-"artifactory"}
 
 function docker_tag_exists() {
   TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${DOCKER_USERNAME}'", "password": "'${DOCKER_PASSWORD}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
-  EXISTS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/$1/tags/?page_size=10000 | jq -r "[.results | .[] | .name == \"$2\"] | any")
-  test ${EXISTS} = true
+  echo $(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/$1/tags/?page_size=10000 | jq -r "[.results | .[] | .name == \"$2\"] | any")
 }
 
 function docker_build() {
-  if "$3" != "latest" -a docker_tag_exists "${DOCKER_USERNAME}/${DOCKER_REPONAME}" "$2-$3"; then
-    echo "### Tag ${DOCKER_USERNAME}/${DOCKER_REPONAME}:$2-$3 already exists..."
+  echo "### Start building Artifactory $2 $3..."
+  TAG_EXISTS=$(docker_tag_exists "${DOCKER_USERNAME}/${DOCKER_REPONAME}" "$2-$3")
+  echo "Check tag exists : $TAG_EXISTS"
+  if [ "$3" != "latest" ] && [ "${TAG_EXISTS}" = "true" ]; then
+    echo "Tag $2-$3 already exists and is not latest..."
   else
-    echo "### Start building Artifactory $2 $3..."
     mkdir -p ./docker/$2-$3
     echo "FROM $1:$3" > ./docker/$2-$3/Dockerfile
     docker build -t $2-$3 -f ./docker/$2-$3/Dockerfile ./docker/$2-$3
