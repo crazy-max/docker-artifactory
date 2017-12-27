@@ -1,0 +1,8 @@
+# Jetbrains
+/*.iml
+/*.ipr
+/*.iws
+
+# App
+/.dev
+/docker

@@ -1,0 +1,36 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_USERNAME=crazymax
+    - DOCKER_REPONAME=artifactory
+    - DOCKER_VERSION=17.10.0~ce-0~ubuntu
+    - COMPOSE_VERSION=1.17.1
+    - secure: MXWH3qnBcoDSZuBeRBTk2QRUNgkbPVjG6Bdrc0A/JLbAWHn9jo+6oWQDJNdSvZraNbHD7PpLbFBmrucTNdlsFuYhQXHe7T1QZ+sQWfsYwIx73DHwvtweQ5GFcCng6V8D7gdvcVLIKo4vYUy3fijryZ5aSLKnFJchTccDW9QS0wdzoK/lmjQ4R8Ik8AUn93/78GprD7lstM4rcrpyTiHtS15eU1p1rhpe5jN/6siD/OLXqGoDrF65C9BaT9lEjsdYpSn77DvoXylHLniurqh165WKahY1geCMz/mmWugLiDU4M7gewYXJ8aq8QqAYPOXghynmswjWYEpS8ILekfN/DPOAC1nkYrMpWFxxWyE5kL9KQIRFnNMqd/2oE4da6CX6CqvvfgWdEBMxPwjCUUW942GIQ+CAmNY2EDhQYWYsW1anAP6CaBtXFQ06WToEiJSMOXcfwWjM12PaRqFOpAxMTjbrAE3C9YEztJw0MuzrJi/YQouLW3L2wfaVmDHhyriQR+MGMuyzbhNRfUvtI8gvQE6v12AEXSPCS/G5m9uHUSiBM+iwcwKkyNTAx0NZTIml3ve5SxgvYwDgquM8z50g5wBkicYeqNx+YTXHisRDX6EyaffYKjyTYtvEvepqONurSYkGBl4fCFkifcAO4RY61YtAxhphREZfFYDEulfZzqc= # DOCKER_PASSWORD
+    - secure: sRO2z9j/uv9tk0ZaEtv3/R7EhBtuJBl+OxzFscbsSARbmAtHT6132qF4/WZuQUrtVbEJF3eWWKuDBMlg4KCxOgpm+JtN3zS2pghm+VYHOgjSoTEUX9Shg5LdzMBrdI9O5Z/cqKZF411mgQt/EktosJMX7nyREA5/UipskkBKWOIZehTXs+sYPMCO4zeyWuZ+7xPqprdjQ5PLdCGV65vd/BproKBUK3ritzNjUJJWFhRydGZY2BosJYnlmSMHkXs0+xwhDAaNfumKstliXMbeI0bPa9qXfcdCAzx6D9tAYiSXPMssLxzbTwtFOqUCyep1uuXRP9Dwdk6MHeFH6hlZdWjOSI1r1pw5TLfxOzEbKjMxXzTSMMPigvAK0ZV7fnR8GtnIJFayAUgJkK9Wpzjmt0XqzX3yuhUrwIpGmCo4Xg3UcJ0Xw88fPcvMJQ5krTUGSWCUyM/b7fmA8GDWAnMCzTZUbJgDfyeMSHVnePzqyjYyZJ03wrfzkogW7DRAm7CdHAxeSDMffLf9H9xFv9yTYJXc3U3REShVpUJTzEfhNgKYJShUlcfh7wGlpqZnopgydOSR2Qx66FTRRUbmExWVpPZvsRwYB/BmqkwyX9nvDI/XL4z6d5ve5N/1oneqUa5c5/j1z6uLxBBDiqRYdKKKaZJ13EOhce/UYfvZi6Ba8q8= # GITHUB_TOKEN
+
+install:
+  - sudo apt-get update
+  - sudo apt-get install -y -q curl jq
+  - sudo apt-cache madison docker-ce
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce=${DOCKER_VERSION}
+  - docker --version
+  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+
+script:
+  - bash build.sh
+
+after_success:
+  - test $TRAVIS_PULL_REQUEST = false
+    && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+    && docker push $DOCKER_USERNAME/$DOCKER_REPONAME
+
+branches:
+  except:
+    - /^[0-9]/
