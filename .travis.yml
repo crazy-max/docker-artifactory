@@ -7,8 +7,9 @@ env:
   global:
     - DOCKER_USERNAME=crazymax
     - DOCKER_REPONAME=artifactory
-    - DOCKER_VERSION=17.10.0~ce-0~ubuntu
-    - COMPOSE_VERSION=1.17.1
+    - DOCKER_VERSION=17.12.0~ce-0~ubuntu
+    - COMPOSE_VERSION=1.18.0
+    - MICROBADGER_HOOK=https://hooks.microbadger.com/images/crazymax/nextcloud/rCjCdBDz_XNeq8rPpHopWXWxZNI=
     - secure: MXWH3qnBcoDSZuBeRBTk2QRUNgkbPVjG6Bdrc0A/JLbAWHn9jo+6oWQDJNdSvZraNbHD7PpLbFBmrucTNdlsFuYhQXHe7T1QZ+sQWfsYwIx73DHwvtweQ5GFcCng6V8D7gdvcVLIKo4vYUy3fijryZ5aSLKnFJchTccDW9QS0wdzoK/lmjQ4R8Ik8AUn93/78GprD7lstM4rcrpyTiHtS15eU1p1rhpe5jN/6siD/OLXqGoDrF65C9BaT9lEjsdYpSn77DvoXylHLniurqh165WKahY1geCMz/mmWugLiDU4M7gewYXJ8aq8QqAYPOXghynmswjWYEpS8ILekfN/DPOAC1nkYrMpWFxxWyE5kL9KQIRFnNMqd/2oE4da6CX6CqvvfgWdEBMxPwjCUUW942GIQ+CAmNY2EDhQYWYsW1anAP6CaBtXFQ06WToEiJSMOXcfwWjM12PaRqFOpAxMTjbrAE3C9YEztJw0MuzrJi/YQouLW3L2wfaVmDHhyriQR+MGMuyzbhNRfUvtI8gvQE6v12AEXSPCS/G5m9uHUSiBM+iwcwKkyNTAx0NZTIml3ve5SxgvYwDgquM8z50g5wBkicYeqNx+YTXHisRDX6EyaffYKjyTYtvEvepqONurSYkGBl4fCFkifcAO4RY61YtAxhphREZfFYDEulfZzqc= # DOCKER_PASSWORD
     - secure: sRO2z9j/uv9tk0ZaEtv3/R7EhBtuJBl+OxzFscbsSARbmAtHT6132qF4/WZuQUrtVbEJF3eWWKuDBMlg4KCxOgpm+JtN3zS2pghm+VYHOgjSoTEUX9Shg5LdzMBrdI9O5Z/cqKZF411mgQt/EktosJMX7nyREA5/UipskkBKWOIZehTXs+sYPMCO4zeyWuZ+7xPqprdjQ5PLdCGV65vd/BproKBUK3ritzNjUJJWFhRydGZY2BosJYnlmSMHkXs0+xwhDAaNfumKstliXMbeI0bPa9qXfcdCAzx6D9tAYiSXPMssLxzbTwtFOqUCyep1uuXRP9Dwdk6MHeFH6hlZdWjOSI1r1pw5TLfxOzEbKjMxXzTSMMPigvAK0ZV7fnR8GtnIJFayAUgJkK9Wpzjmt0XqzX3yuhUrwIpGmCo4Xg3UcJ0Xw88fPcvMJQ5krTUGSWCUyM/b7fmA8GDWAnMCzTZUbJgDfyeMSHVnePzqyjYyZJ03wrfzkogW7DRAm7CdHAxeSDMffLf9H9xFv9yTYJXc3U3REShVpUJTzEfhNgKYJShUlcfh7wGlpqZnopgydOSR2Qx66FTRRUbmExWVpPZvsRwYB/BmqkwyX9nvDI/XL4z6d5ve5N/1oneqUa5c5/j1z6uLxBBDiqRYdKKKaZJ13EOhce/UYfvZi6Ba8q8= # GITHUB_TOKEN
 
@@ -30,7 +31,12 @@ after_success:
   - test $TRAVIS_PULL_REQUEST = false
     && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
     && docker push $DOCKER_USERNAME/$DOCKER_REPONAME
+    && curl -X POST $MICROBADGER_HOOK
 
 branches:
   except:
     - /^[0-9]/
+
+notifications:
+  webhooks:
+    secure: zgrMK4Fi0XNHU2rPinJcLexuMw+FpMET43Le3ijn7BcHO1f1ksJ7n1Jb8dHCyXVvUdwICNqslkdwFfcUtZn27SLT7oibdVUNE2gpNSOOm0gNU55RwcIqxtL/YGjN3LyinrOS+uVkR+15rSGea8jCmPL5f4bSbj7+2keuZ/UpjUyAda6TjvjaCBzZLPoxeWqJJyS31gyvkM7MTbyoum9m6zn+1PK1TYU5So4rFBWrZlWus96KhajoolVlYpsBpgTlYog8cn1AAlKF6jURv2pvpcuP69gjFtiT0MPdK4Zk9nLOKBn3Nrkc4l5NmRjJ7oXrfZJUdklwqUEdHsvo7DgkGhsbUFY0mn7zxYQZKskQyVSgzgykURI3Z0sXGlwzN2MYRsiDi7ncMzpYUqhK/Jg3hisMiyb5cpKyM5gn2qznPv4A9HDaiXbWH6zirT7uljtx09or8uByD9DWwOooiw3u1wVLPt/WUehq/z3p9i2yPdigzsYBoVciOb2sCQ+2IHDbf4fwtBh8K76fJU60l7jR+NYFx2KywBPSdS2UInsTWfkUnKjvEuSwVrP888HJiTh24sp1lpgrHMMgiaq6h3RDzobbjjhuJ7DUuwrEmFYwFaTvsfhrtJWjYRU4CTTmKVsUGmotUHd42A9OIHFRaaccJnSYXt5cHkwOtlXj9u18Zls=
