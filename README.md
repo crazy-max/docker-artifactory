@@ -8,7 +8,8 @@
 
 ## About
 
-This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to [Docker Hub](https://hub.docker.com/r/crazymax/artifactory/).
+This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to [Docker Hub](https://hub.docker.com/r/crazymax/artifactory/).<br />
+If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 🐳 Docker images!
 
 The following images are mirrored :
 
