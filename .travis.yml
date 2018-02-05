@@ -8,7 +8,7 @@ env:
     - DOCKER_USERNAME=crazymax
     - DOCKER_REPONAME=artifactory
     - QUAY_USERNAME=crazymax
-    - QUAY_REPONAME=matomo
+    - QUAY_REPONAME=artifactory
     - DOCKER_VERSION=17.12.0~ce-0~ubuntu
     - COMPOSE_VERSION=1.18.0
     - MICROBADGER_HOOK=https://hooks.microbadger.com/images/crazymax/artifactory/Znw9qClIrIjFqXzYH-ZckGOS8Xc=
