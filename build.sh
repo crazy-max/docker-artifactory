@@ -20,6 +20,7 @@ function docker_build() {
     echo "FROM $1:$3" > ./docker/$2-$3/Dockerfile
     docker build -t $2-$3 -f ./docker/$2-$3/Dockerfile ./docker/$2-$3
     docker tag $2-$3 ${DOCKER_USERNAME}/${DOCKER_REPONAME}:$2-$3
+    docker tag $2-$3 quay.io/${DOCKER_USERNAME}/${DOCKER_REPONAME}:$2-$3
   fi
 }
 

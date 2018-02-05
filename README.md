@@ -3,7 +3,7 @@
   <a href="https://travis-ci.org/crazy-max/docker-artifactory"><img src="https://img.shields.io/travis/crazy-max/docker-artifactory/master.svg?style=flat-square" alt="Build Status"></a>
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/stars/crazymax/artifactory.svg?style=flat-square" alt="Docker Stars"></a>
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/pulls/crazymax/artifactory.svg?style=flat-square" alt="Docker Pulls"></a>
-  <a href="https://saythanks.io/to/crazymax"><img src="https://img.shields.io/badge/thank-crazymax-426aa5.svg?style=flat-square" alt="Say Thanks"></a>
+  <a href="https://quay.io/repository/crazymax/artifactory"><img src="https://quay.io/repository/crazymax/artifactory/status?style=flat-square" alt="Docker Repository on Quay"></a>
 </p>
 
 ## About
