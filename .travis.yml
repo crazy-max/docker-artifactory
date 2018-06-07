@@ -9,8 +9,6 @@ env:
     - DOCKER_REPONAME=artifactory
     - QUAY_USERNAME=crazymax
     - QUAY_REPONAME=artifactory
-    - DOCKER_VERSION=17.12.0~ce-0~ubuntu
-    - COMPOSE_VERSION=1.18.0
     - MICROBADGER_HOOK=https://hooks.microbadger.com/images/crazymax/artifactory/Znw9qClIrIjFqXzYH-ZckGOS8Xc=
     - secure: MXWH3qnBcoDSZuBeRBTk2QRUNgkbPVjG6Bdrc0A/JLbAWHn9jo+6oWQDJNdSvZraNbHD7PpLbFBmrucTNdlsFuYhQXHe7T1QZ+sQWfsYwIx73DHwvtweQ5GFcCng6V8D7gdvcVLIKo4vYUy3fijryZ5aSLKnFJchTccDW9QS0wdzoK/lmjQ4R8Ik8AUn93/78GprD7lstM4rcrpyTiHtS15eU1p1rhpe5jN/6siD/OLXqGoDrF65C9BaT9lEjsdYpSn77DvoXylHLniurqh165WKahY1geCMz/mmWugLiDU4M7gewYXJ8aq8QqAYPOXghynmswjWYEpS8ILekfN/DPOAC1nkYrMpWFxxWyE5kL9KQIRFnNMqd/2oE4da6CX6CqvvfgWdEBMxPwjCUUW942GIQ+CAmNY2EDhQYWYsW1anAP6CaBtXFQ06WToEiJSMOXcfwWjM12PaRqFOpAxMTjbrAE3C9YEztJw0MuzrJi/YQouLW3L2wfaVmDHhyriQR+MGMuyzbhNRfUvtI8gvQE6v12AEXSPCS/G5m9uHUSiBM+iwcwKkyNTAx0NZTIml3ve5SxgvYwDgquM8z50g5wBkicYeqNx+YTXHisRDX6EyaffYKjyTYtvEvepqONurSYkGBl4fCFkifcAO4RY61YtAxhphREZfFYDEulfZzqc= # DOCKER_PASSWORD
     - secure: uge90v//+4d7GfQQYlCu4c1gnRgrRs2vhjW2/pL3CBEexNeQLCHRv99kRNQOnkZwvA0vTuuwcM7qJbWF1H8TBKnoyzVZbaouHLhfoGmFFXUrm1+t7sL17Rskr6bXJWoJYpR8KMTt6SJ+HB8oke6SHO7iGgIMUiT0SLau6I0+E5mS7oFJ/Zy+egbQI9l0hvSm99WJfLBo93KBsGIyuIOP9NyEI1uuUGOvluVqvEKorMWL3QIe9hawjnRXBDR2twZ+bGGoCsI3fDOGVEjOArNuzN0TTloJQAgvJpHx+nB7V3UOuEmyQqLIKHuED28zgpkL3UdfNEnY9ZC3RQfbr5hr5KsPGknmCieSlqkxaiZ83wc6ugK3E7N/lVqEXJdU4Z9jF5XB81EUIFz1uLZLIvyt7Hpv8kNNqBAH4kjGQ8wb1XdN0HdHBtXyzxxNXqIiY7rSI2r86Lsf38RK6kiE6ZtwQ1JXk9W81KXUFuYbLzLnWXF60FTR5VcaKEX8scy0j8fZPbIQ9Jc2vSmc/W5XOYJNfb6QVZQk2oCEJNuJ2UsSzj5QVPmiJ4OumCSdfQWSdAmvA9NmfIbTx+MQEW85aA3RB6wUTjChBXXhQzZveGCDxZ50rFWToUn2YRUrmdPeTemO6BIut1Subjw0juEAiK1tKltSvlA+htU5kDDSs5CyiPA= # QUAY_PASSWORD
@@ -18,14 +16,7 @@ env:
 
 install:
   - sudo apt-get update
-  - sudo apt-get install -y -q curl jq
-  - sudo apt-cache madison docker-ce
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce=${DOCKER_VERSION}
   - docker --version
-  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - docker-compose --version
 
 script:
   - bash build.sh
