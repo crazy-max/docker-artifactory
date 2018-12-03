@@ -27,10 +27,6 @@ script:
     && echo "$QUAY_PASSWORD" | docker login quay.io --username "$QUAY_USERNAME" --password-stdin \
     && docker push quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME
 
-branches:
-  except:
-    - /^[0-9]/
-
 notifications:
   webhooks:
     secure: zgrMK4Fi0XNHU2rPinJcLexuMw+FpMET43Le3ijn7BcHO1f1ksJ7n1Jb8dHCyXVvUdwICNqslkdwFfcUtZn27SLT7oibdVUNE2gpNSOOm0gNU55RwcIqxtL/YGjN3LyinrOS+uVkR+15rSGea8jCmPL5f4bSbj7+2keuZ/UpjUyAda6TjvjaCBzZLPoxeWqJJyS31gyvkM7MTbyoum9m6zn+1PK1TYU5So4rFBWrZlWus96KhajoolVlYpsBpgTlYog8cn1AAlKF6jURv2pvpcuP69gjFtiT0MPdK4Zk9nLOKBn3Nrkc4l5NmRjJ7oXrfZJUdklwqUEdHsvo7DgkGhsbUFY0mn7zxYQZKskQyVSgzgykURI3Z0sXGlwzN2MYRsiDi7ncMzpYUqhK/Jg3hisMiyb5cpKyM5gn2qznPv4A9HDaiXbWH6zirT7uljtx09or8uByD9DWwOooiw3u1wVLPt/WUehq/z3p9i2yPdigzsYBoVciOb2sCQ+2IHDbf4fwtBh8K76fJU60l7jR+NYFx2KywBPSdS2UInsTWfkUnKjvEuSwVrP888HJiTh24sp1lpgrHMMgiaq6h3RDzobbjjhuJ7DUuwrEmFYwFaTvsfhrtJWjYRU4CTTmKVsUGmotUHd42A9OIHFRaaccJnSYXt5cHkwOtlXj9u18Zls=
