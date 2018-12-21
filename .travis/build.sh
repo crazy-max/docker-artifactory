@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 DOCKER_USERNAME=${DOCKER_USERNAME:-crazymax}
 DOCKER_REPONAME=${DOCKER_REPONAME:-artifactory}
