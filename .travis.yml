@@ -18,14 +18,8 @@ install:
   - docker --version
 
 script:
-  - bash build.sh
-  - |
-    test $TRAVIS_PULL_REQUEST = false \
-    && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin \
-    && docker push $DOCKER_USERNAME/$DOCKER_REPONAME \
-    && curl -X POST $MICROBADGER_HOOK \
-    && echo "$QUAY_PASSWORD" | docker login quay.io --username "$QUAY_USERNAME" --password-stdin \
-    && docker push quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME
+  - bash .travis/build.sh
+  - test $TRAVIS_PULL_REQUEST = false && bash .travis/push.sh
 
 notifications:
   webhooks:
