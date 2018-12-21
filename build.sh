@@ -24,7 +24,7 @@ function docker_pull() {
   echo "### Pulling Artifactory $2 $3 from $1..."
   echo "Check if tag exists..."
   for TAG in $(echo ${TAG_LIST} | sed "s/,/ /g"); do
-    if [[ "$TAG" = "$2-$3" ]]; then
+    if [ "$3" != "latest" ] && [ "$TAG" = "$2-$3" ]; then
       echo "Tag $2-$3 already exists and is not latest... Skipping..."
       return
     fi
