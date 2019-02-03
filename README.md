@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://microbadger.com/images/crazymax/artifactory"><img src="https://images.microbadger.com/badges/version/crazymax/artifactory.svg?style=flat-square" alt="Version"></a>
-  <a href="https://travis-ci.com/crazy-max/docker-artifactory"><img src="https://img.shields.io/travis/com/crazy-max/docker-artifactory/master.svg?style=flat-square" alt="Build Status"></a>
+  <a href="https://travis-ci.org/crazy-max/docker-artifactory"><img src="https://img.shields.io/travis/crazy-max/docker-artifactory/master.svg?style=flat-square" alt="Build Status"></a>
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/stars/crazymax/artifactory.svg?style=flat-square" alt="Docker Stars"></a>
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/pulls/crazymax/artifactory.svg?style=flat-square" alt="Docker Pulls"></a>
   <a href="https://quay.io/repository/crazymax/artifactory"><img src="https://quay.io/repository/crazymax/artifactory/status?style=flat-square" alt="Docker Repository on Quay"></a>
