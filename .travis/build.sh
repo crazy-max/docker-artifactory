@@ -56,3 +56,9 @@ while IFS= read -r version
 do
   docker_pull "docker.bintray.io/jfrog/nginx-artifactory-pro" "nginx-pro" "$version"
 done < "./images/nginx-artifactory-pro.txt"
+
+# Postgres
+while IFS= read -r version
+do
+  docker_pull "docker.bintray.io/jfrog/postgres" "postgres" "$version"
+done < "./images/postgres.txt"
