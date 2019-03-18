@@ -60,5 +60,5 @@ done < "./images/nginx-artifactory-pro.txt"
 # Postgres
 while IFS= read -r version
 do
-  docker_pull "docker.bintray.io/jfrog/postgres" "postgres" "$version"
+  docker_pull "jfrog-docker-reg2.bintray.io/postgres" "postgres" "$version"
 done < "./images/postgres.txt"
