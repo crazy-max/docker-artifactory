@@ -10,6 +10,8 @@
 This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to [Docker Hub](https://hub.docker.com/r/crazymax/artifactory/) and [Quay](https://quay.io/repository/crazymax/artifactory).<br />
 If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 🐳 Docker images!
 
+💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
+
 The following images are mirrored :
 
 * [artifactory-oss](https://bintray.com/jfrog/reg2/jfrog%3Aartifactory-oss) : Artifactory Community Edition
