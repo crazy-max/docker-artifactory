@@ -1,0 +1,113 @@
+name: build
+
+on:
+  push:
+    branches: 'master'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Prepare
+        id: prepare
+        run: |
+          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=docker_username::crazymax
+          echo ::set-output name=docker_image::crazymax/artifactory
+          echo ::set-output name=quay_username::crazymax+github
+          echo ::set-output name=quay_image::quay.io/crazymax/artifactory
+      -
+        name: Get Docker JWT Token
+        id: jwt
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          TOKEN=$(curl -s -X POST -H "Content-Type: application/json" -d '{"username": "'${{ steps.prepare.outputs.docker_username }}'", "password": "'${DOCKER_PASSWORD}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+          if [ -z ${TOKEN} -o ${TOKEN} == "null" ]; then
+            echo "❌ Cannot retrieve token. Check your docker's credentials."
+            exit 1
+          fi
+          echo ::set-output name=token::${TOKEN}
+      -
+        name: Get Docker Tags
+        id: tags
+        if: success()
+        run: |
+          TAG_LIST=""
+          function get_docker_tags() {
+            for TAG in $(curl -s -H "Authorization: JWT ${{ steps.jwt.outputs.token }}" $1 | jq -rc '.results[]'); do
+              TAG_LIST="$(echo "$TAG" | jq -r .name),$TAG_LIST"
+            done
+            NEXT_PAGE=$(curl -s -H "Authorization: JWT ${{ steps.jwt.outputs.token }}" $1 | jq -r '.next')
+            if [[ ${NEXT_PAGE} != "null" ]]; then
+              get_docker_tags ${NEXT_PAGE}
+            fi
+          }
+          get_docker_tags https://hub.docker.com/v2/repositories/${{ steps.prepare.outputs.docker_image }}/tags/?page_size=10000
+          echo ::set-output name=list::${TAG_LIST}
+      -
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Docker Pull
+        if: success()
+        run: |
+          function docker_pull() {
+            echo "📥 Pulling Artifactory $2 $3 from $1..."
+            for TAG in $(echo ${{ steps.tags.outputs.list }} | sed "s/,/ /g"); do
+              if [ "$3" != "latest" ] && [ "$TAG" = "$2-$3" ]; then
+                echo "🔫 Tag $2-$3 already exists and is not latest... Skipping..."
+                return
+              fi
+            done
+            docker pull $1:$3
+            docker tag $1:$3 ${{ steps.prepare.outputs.docker_image }}:$2-$3
+            docker tag $1:$3 ${{ steps.prepare.outputs.quay_image }}:$2-$3
+          }
+
+          # Artifactory oss
+          while IFS= read -r version
+          do
+            docker_pull "docker.bintray.io/jfrog/artifactory-oss" "oss" "$version"
+          done < "./images/artifactory-oss.txt"
+
+          # Artifactory pro
+          while IFS= read -r version
+          do
+            docker_pull "docker.bintray.io/jfrog/artifactory-pro" "pro" "$version"
+          done < "./images/artifactory-pro.txt"
+
+          # Nginx Artifactory pro
+          while IFS= read -r version
+          do
+            docker_pull "docker.bintray.io/jfrog/nginx-artifactory-pro" "nginx-pro" "$version"
+          done < "./images/nginx-artifactory-pro.txt"
+
+          # Postgres
+          while IFS= read -r version
+          do
+            docker_pull "jfrog-docker-reg2.bintray.io/postgres" "postgres" "$version"
+          done < "./images/postgres.txt"
+      -
+        name: Docker Login
+        if: success()
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login --username "${{ steps.prepare.outputs.docker_username }}" --password-stdin
+          echo "${QUAY_PASSWORD}" | docker login quay.io --username "${{ steps.prepare.outputs.quay_username }}" --password-stdin
+      -
+        name: Docker Push
+        if: success()
+        run: |
+          docker push ${{ steps.prepare.outputs.docker_image }}
+          docker push ${{ steps.prepare.outputs.quay_image }}
+      -
+        name: Clear
+        if: always()
+        run: |
+          rm -f ${HOME}/.docker/config.json
+          curl -s --fail -X POST -H "Accept: application/json" -H "Authorization: JWT ${{ steps.jwt.outputs.token }}" https://hub.docker.com/v2/logout/
