@@ -20,10 +20,8 @@ jobs:
       -
         name: Get Docker JWT Token
         id: jwt
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          TOKEN=$(curl -s -X POST -H "Content-Type: application/json" -d '{"username": "'${{ steps.prepare.outputs.docker_username }}'", "password": "'${DOCKER_PASSWORD}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+          TOKEN=$(curl -s -H "Content-Type: application/json" "https://auth.docker.io/token?service=registry.docker.io&scope=repository:${{ steps.prepare.outputs.docker_image }}:pull" | jq -r .token)
           if [ -z ${TOKEN} -o ${TOKEN} == "null" ]; then
             echo "❌ Cannot retrieve token. Check your docker's credentials."
             exit 1
@@ -34,17 +32,7 @@ jobs:
         id: tags
         if: success()
         run: |
-          TAG_LIST=""
-          function get_docker_tags() {
-            for TAG in $(curl -s -H "Authorization: JWT ${{ steps.jwt.outputs.token }}" $1 | jq -rc '.results[]'); do
-              TAG_LIST="$(echo "$TAG" | jq -r .name),$TAG_LIST"
-            done
-            NEXT_PAGE=$(curl -s -H "Authorization: JWT ${{ steps.jwt.outputs.token }}" $1 | jq -r '.next')
-            if [[ ${NEXT_PAGE} != "null" ]]; then
-              get_docker_tags ${NEXT_PAGE}
-            fi
-          }
-          get_docker_tags https://hub.docker.com/v2/repositories/${{ steps.prepare.outputs.docker_image }}/tags/?page_size=10000
+          TAG_LIST=$(curl -s -H "Authorization: Bearer ${{ steps.jwt.outputs.token }}" "https://index.docker.io/v2/${{ steps.prepare.outputs.docker_image }}/tags/list" | jq -rc '.tags[]')
           echo ::set-output name=list::${TAG_LIST}
       -
         # https://github.com/actions/checkout
@@ -110,4 +98,3 @@ jobs:
         if: always()
         run: |
           rm -f ${HOME}/.docker/config.json
-          curl -s --fail -X POST -H "Accept: application/json" -H "Authorization: JWT ${{ steps.jwt.outputs.token }}" https://hub.docker.com/v2/logout/
