@@ -3,6 +3,9 @@ name: build
 on:
   push:
     branches: 'master'
+    paths:
+      - '.github/workflows/build.yml'
+      - 'images/**'
 
 jobs:
   build:
@@ -23,7 +26,7 @@ jobs:
         run: |
           TOKEN=$(curl -s -H "Content-Type: application/json" "https://auth.docker.io/token?service=registry.docker.io&scope=repository:${{ steps.prepare.outputs.docker_image }}:pull" | jq -r .token)
           if [ -z ${TOKEN} -o ${TOKEN} == "null" ]; then
-            echo "❌ Cannot retrieve token. Check your docker's credentials."
+            echo "::error::Cannot retrieve token"
             exit 1
           fi
           echo ::set-output name=token::${TOKEN}
