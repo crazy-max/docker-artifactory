@@ -2,12 +2,11 @@
   <a href="https://github.com/crazy-max/docker-artifactory/actions?workflow=build"><img src="https://github.com/crazy-max/docker-artifactory/workflows/build/badge.svg" alt="Build Status"></a>
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/stars/crazymax/artifactory.svg?style=flat-square" alt="Docker Stars"></a>
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/pulls/crazymax/artifactory.svg?style=flat-square" alt="Docker Pulls"></a>
-  <a href="https://quay.io/repository/crazymax/artifactory"><img src="https://quay.io/repository/crazymax/artifactory/status?style=flat-square" alt="Docker Repository on Quay"></a>
 </p>
 
 ## About
 
-This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to [Docker Hub](https://hub.docker.com/r/crazymax/artifactory/) and [Quay](https://quay.io/repository/crazymax/artifactory).<br />
+This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to [Docker Hub](https://hub.docker.com/r/crazymax/artifactory/).<br />
 If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 🐳 Docker images!
 
 💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!

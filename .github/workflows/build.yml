@@ -18,8 +18,6 @@ jobs:
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_username::crazymax
           echo ::set-output name=docker_image::crazymax/artifactory
-          echo ::set-output name=quay_username::crazymax+github
-          echo ::set-output name=quay_image::quay.io/crazymax/artifactory
       -
         name: Get Docker JWT Token
         id: jwt
@@ -55,7 +53,6 @@ jobs:
             done
             docker pull $1:$3
             docker tag $1:$3 ${{ steps.prepare.outputs.docker_image }}:$2-$3
-            docker tag $1:$3 ${{ steps.prepare.outputs.quay_image }}:$2-$3
           }
 
           # Artifactory oss
@@ -86,16 +83,13 @@ jobs:
         if: success()
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
         run: |
           echo "${DOCKER_PASSWORD}" | docker login --username "${{ steps.prepare.outputs.docker_username }}" --password-stdin
-          echo "${QUAY_PASSWORD}" | docker login quay.io --username "${{ steps.prepare.outputs.quay_username }}" --password-stdin
       -
         name: Docker Push
         if: success()
         run: |
           docker push ${{ steps.prepare.outputs.docker_image }}
-          docker push ${{ steps.prepare.outputs.quay_image }}
       -
         name: Clear
         if: always()
