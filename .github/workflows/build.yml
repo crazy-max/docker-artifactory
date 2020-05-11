@@ -36,7 +36,6 @@ jobs:
           TAG_LIST=$(curl -s -H "Authorization: Bearer ${{ steps.jwt.outputs.token }}" "https://index.docker.io/v2/${{ steps.prepare.outputs.docker_image }}/tags/list" | jq -rc '.tags[]')
           echo ::set-output name=list::${TAG_LIST}
       -
-        # https://github.com/actions/checkout
         name: Checkout
         uses: actions/checkout@v2
       -
