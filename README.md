@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="https://github.com/crazy-max/docker-artifactory/actions?workflow=build"><img src="https://github.com/crazy-max/docker-artifactory/workflows/build/badge.svg" alt="Build Status"></a>
-  <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/stars/crazymax/artifactory.svg?style=flat-square" alt="Docker Stars"></a>
-  <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/pulls/crazymax/artifactory.svg?style=flat-square" alt="Docker Pulls"></a>
+  <a href="https://github.com/crazy-max/docker-artifactory/actions?workflow=build"><img src="https://img.shields.io/github/workflow/status/crazy-max/docker-artifactory/build?label=build&logo=github&style=flat-square" alt="Build Status"></a>
+  <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/stars/crazymax/artifactory.svg?style=flat-square&logo=docker" alt="Docker Stars"></a>
+  <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/pulls/crazymax/artifactory.svg?style=flat-square&logo=docker" alt="Docker Pulls"></a>
 </p>
 
 ## About
