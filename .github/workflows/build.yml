@@ -37,7 +37,7 @@ jobs:
           echo ::set-output name=list::${TAG_LIST}
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.0
       -
         name: Docker Pull
         if: success()
