@@ -4,9 +4,22 @@
   <a href="https://hub.docker.com/r/crazymax/artifactory/"><img src="https://img.shields.io/docker/pulls/crazymax/artifactory.svg?style=flat-square&logo=docker" alt="Docker Pulls"></a>
 </p>
 
+## ⚠️ Abandoned project
+
+This project is not maintained anymore and is abandoned. Feel free to fork and make your own changes if needed.
+
+Fyi, Artifactory images are now publicly available:
+
+* `releases-docker.jfrog.io/jfrog/artifactory-oss`
+* `releases-docker.jfrog.io/jfrog/nginx-artifactory-pro`
+* `releases-docker.jfrog.io/jfrog/artifactory-pro`
+* `releases-docker.jfrog.io/postgres`
+
 ## About
 
-This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to [Docker Hub](https://hub.docker.com/r/crazymax/artifactory/).<br />
+This is a simple mirror of [Artifactory](https://jfrog.com/artifactory/) Docker images taken
+from [JFrog Docker Registry](https://bintray.com/jfrog/reg2) and push to
+[Docker Hub](https://hub.docker.com/r/crazymax/artifactory/).<br />
 If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other Docker images!
 
 💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
